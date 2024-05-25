@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>RhubarbGeekNz.Console</AssemblyName>
+    <Copyright>Copyright &#169; 2024 Roger Brown</Copyright>
+    <Version>1.0.0</Version>
+    <AssemblyTitle>PowerShell Cmdlets for Console</AssemblyTitle>
+    <Product>Console for PowerShell</Product>
+    <Company>rhubarb-geek-nz</Company>
+    <PackageId>rhubarb-geek-nz.Console</PackageId>
+    <Title>Console for PowerShell</Title>
+    <Description>Tools for reading and writing directly to stdin and stdout using the Console API</Description>
+    <Authors>Roger Brown</Authors>
+    <PackageProjectUrl>https://github.com/rhubarb-geek-nz/Console</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rhubarb-geek-nz/Console.git</RepositoryUrl>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Console</PackageTags>
+    <CertificateThumbprint>601A8B683F791E51F647D34AD102C38DA4DDB65F</CertificateThumbprint>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.1">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <Target Name="Package" AfterTargets="Publish" Condition=" '$(Configuration)' == 'Release' ">
+    <ItemGroup>
+      <FilesToDelete Include="$(PublishDir)$(AssemblyName).deps.json" />
+      <FilesToDelete Include="$(PublishDir)$(AssemblyName).pdb" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+    <Exec Command="dotnet tool restore" />
+    <Exec Command="dotnet pwsh -ExecutionPolicy Bypass -NoProfile -c &quot;Set-Variable -Name 'ErrorActionPreference' -Value 'Stop'; if ( -not ( Get-Module -ListAvailable -Name '$(Company).PowerShellDataFile' ) ) { Install-Module -Name '$(Company).PowerShellDataFile' -Repository 'PSGallery' -Force }&quot; " />
+    <Exec Command="dotnet pwsh -NoProfile -ExecutionPolicy Bypass -File ./package.ps1 $(ProjectName) $(OutDir) $(PublishDir)" />
+    <Delete Files="$(OutDir)$(PackageId).psd1" />
+  </Target>
+
+  <Target Name="Sign" AfterTargets="Compile" Condition=" '$(Configuration)' == 'Release' AND '$(OS)' == 'Windows_NT' ">
+    <ItemGroup>
+        <FileToSign Include="$(IntermediateOutputPath)$(TargetFileName)" />
+    </ItemGroup>
+    <Message Importance="high" Text="Signing assemblies: @(FileToSign)" />
+    <SignFile
+          SigningTarget="@(FileToSign)"
+          CertificateThumbprint="$(CertificateThumbprint)"
+          TimestampUrl="http://timestamp.digicert.com"
+    />
+  </Target>
+
+</Project>
