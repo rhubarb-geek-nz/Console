@@ -25,7 +25,7 @@ In text mode, strings are read line by line.
 ## Write-Console
 
 ```
-Write-Console [-NoNewline] [-Encoding <Encoding>] [-InputObject <IEnumerable[byte]>] [-InputString <IEnumerable[char]>]
+Write-Console [-NoNewline] [-InputObject <IEnumerable[byte]>] [-InputString <IEnumerable[char]>]
 ```
 
 This writes byte and character data directly to the console output.

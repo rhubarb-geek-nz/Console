@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
-using System.Text;
 using System.Threading;
 
 namespace RhubarbGeekNz.Console
@@ -124,33 +123,7 @@ namespace RhubarbGeekNz.Console
         }
         private bool noNewLine;
 
-        [Parameter(HelpMessage = "Text encoding")]
-        public Encoding Encoding
-        {
-            get
-            {
-                return encoding;
-            }
-
-            set
-            {
-                encoding = value;
-            }
-        }
-        private Encoding encoding = System.Console.OutputEncoding;
-
         private Stream stream;
-        private byte[] newLine;
-
-        protected override void BeginProcessing()
-        {
-            stream = System.Console.OpenStandardOutput();
-
-            if (!noNewLine)
-            {
-                newLine = encoding.GetBytes(Environment.NewLine);
-            }
-        }
 
         protected override void ProcessRecord()
         {
@@ -163,18 +136,31 @@ namespace RhubarbGeekNz.Console
 
                 if (bytes.Length > 0)
                 {
+                    if (stream == null)
+                    {
+                        stream = System.Console.OpenStandardOutput();
+                    }
+
                     stream.Write(bytes, 0, bytes.Length);
                 }
             }
 
             if (InputString != null)
             {
+                Dispose();
+
                 if (InputString is string str)
                 {
-                    if (str.Length > 0)
+                    if (noNewLine)
                     {
-                        byte[] output = encoding.GetBytes(str);
-                        stream.Write(output, 0, output.Length);
+                        if (str.Length > 0)
+                        {
+                            System.Console.Write(str);
+                        }
+                    }
+                    else
+                    {
+                        System.Console.WriteLine(str);
                     }
                 }
                 else
@@ -184,16 +170,17 @@ namespace RhubarbGeekNz.Console
                         chars = InputString.ToArray();
                     }
 
-                    if (chars.Length > 0)
+                    if (noNewLine)
                     {
-                        byte[] output = encoding.GetBytes(chars);
-                        stream.Write(output, 0, output.Length);
+                        if (chars.Length > 0)
+                        {
+                            System.Console.Write(chars);
+                        }
                     }
-                }
-
-                if (!noNewLine)
-                {
-                    stream.Write(newLine, 0, newLine.Length);
+                    else
+                    {
+                        System.Console.WriteLine(chars);
+                    }
                 }
             }
         }
@@ -202,9 +189,13 @@ namespace RhubarbGeekNz.Console
 
         public void Dispose()
         {
-            using (var s = stream)
+            IDisposable s = stream;
+
+            stream = null;
+
+            if (s != null)
             {
-                stream = null;
+                s.Dispose();
             }
         }
     }
