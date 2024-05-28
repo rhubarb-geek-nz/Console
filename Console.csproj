@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>RhubarbGeekNz.Console</AssemblyName>
     <Copyright>Copyright &#169; 2024 Roger Brown</Copyright>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <AssemblyTitle>PowerShell Cmdlets for Console</AssemblyTitle>
     <Product>Console for PowerShell</Product>
     <Company>rhubarb-geek-nz</Company>
@@ -14,7 +14,7 @@
     <Authors>Roger Brown</Authors>
     <PackageProjectUrl>https://github.com/rhubarb-geek-nz/Console</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rhubarb-geek-nz/Console.git</RepositoryUrl>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>Added error record handling</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Console</PackageTags>

@@ -125,6 +125,15 @@ namespace RhubarbGeekNz.Console
 
         private Stream stream;
 
+        [Parameter(ValueFromPipeline = true, HelpMessage = "Error data for stderr")]
+        public ErrorRecord InputErrorRecord;
+
+        [Parameter(ValueFromPipeline = true, HelpMessage = "Information data for stderr")]
+        public InformationRecord InputInformationRecord;
+
+        [Parameter(ValueFromPipeline = true, HelpMessage = "Warning, debug and verbose data for stderr")]
+        public InformationalRecord InputInformationalRecord;
+
         protected override void ProcessRecord()
         {
             if (InputObject != null)
@@ -180,6 +189,25 @@ namespace RhubarbGeekNz.Console
                     else
                     {
                         System.Console.WriteLine(chars);
+                    }
+                }
+            }
+
+            foreach (var record in new object[] { InputErrorRecord, InputInformationalRecord, InputInformationRecord })
+            {
+                if (record != null)
+                {
+                    using (var shell = PowerShell.Create())
+                    {
+                        var result = shell.AddCommand("Out-String").Invoke(new object[] { record });
+
+                        foreach (var item in result)
+                        {
+                            if (item.BaseObject is string s)
+                            {
+                                System.Console.Error.Write(s);
+                            }
+                        }
                     }
                 }
             }
