@@ -1,6 +1,6 @@
 # Console
 
-Very simple `PowerShell` module for reading from stdin and writing to stdout
+Very simple `PowerShell` module for reading from stdin and writing to stdout and stderr
 
 Build using
 

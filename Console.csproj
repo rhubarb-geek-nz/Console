@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>RhubarbGeekNz.Console</AssemblyName>
     <Copyright>Copyright &#169; 2024 Roger Brown</Copyright>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <AssemblyTitle>PowerShell Cmdlets for Console</AssemblyTitle>
     <Product>Console for PowerShell</Product>
     <Company>rhubarb-geek-nz</Company>
@@ -14,7 +14,7 @@
     <Authors>Roger Brown</Authors>
     <PackageProjectUrl>https://github.com/rhubarb-geek-nz/Console</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rhubarb-geek-nz/Console.git</RepositoryUrl>
-    <PackageReleaseNotes>Use current runspace for running record conversions</PackageReleaseNotes>
+    <PackageReleaseNotes>Private function for writing to stderr</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Console</PackageTags>

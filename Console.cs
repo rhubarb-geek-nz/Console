@@ -92,9 +92,13 @@ namespace RhubarbGeekNz.Console
 
         public void Dispose()
         {
-            using (var disposable = cancellationTokenSource)
+            IDisposable disposable = cancellationTokenSource;
+
+            cancellationTokenSource = null;
+
+            if (disposable != null)
             {
-                cancellationTokenSource = null;
+                disposable.Dispose();
             }
         }
     }
@@ -193,23 +197,19 @@ namespace RhubarbGeekNz.Console
                 }
             }
 
-            foreach (var record in new object[] { InputErrorRecord, InputInformationalRecord, InputInformationRecord })
+            if (InputErrorRecord != null)
             {
-                if (record != null)
-                {
-                    using (var shell = PowerShell.Create(RunspaceMode.CurrentRunspace))
-                    {
-                        var result = shell.AddCommand("Out-String").Invoke(new object[] { record });
+                WriteConsoleError(InputErrorRecord);
+            }
 
-                        foreach (var item in result)
-                        {
-                            if (item.BaseObject is string s)
-                            {
-                                System.Console.Error.Write(s);
-                            }
-                        }
-                    }
-                }
+            if (InputInformationalRecord != null)
+            {
+                WriteConsoleError(InputInformationalRecord);
+            }
+
+            if (InputInformationRecord != null)
+            {
+                WriteConsoleError(InputInformationRecord);
             }
         }
 
@@ -224,6 +224,22 @@ namespace RhubarbGeekNz.Console
             if (s != null)
             {
                 s.Dispose();
+            }
+        }
+
+        private void WriteConsoleError(object record)
+        {
+            using (var shell = PowerShell.Create(RunspaceMode.CurrentRunspace))
+            {
+                var result = shell.AddCommand("Out-String").Invoke(new object[] { record });
+
+                foreach (var item in result)
+                {
+                    if (item.BaseObject is string s)
+                    {
+                        System.Console.Error.Write(s);
+                    }
+                }
             }
         }
     }
