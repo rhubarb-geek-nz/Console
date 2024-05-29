@@ -197,7 +197,7 @@ namespace RhubarbGeekNz.Console
             {
                 if (record != null)
                 {
-                    using (var shell = PowerShell.Create())
+                    using (var shell = PowerShell.Create(RunspaceMode.CurrentRunspace))
                     {
                         var result = shell.AddCommand("Out-String").Invoke(new object[] { record });
 

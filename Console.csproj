@@ -4,17 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>RhubarbGeekNz.Console</AssemblyName>
     <Copyright>Copyright &#169; 2024 Roger Brown</Copyright>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <AssemblyTitle>PowerShell Cmdlets for Console</AssemblyTitle>
     <Product>Console for PowerShell</Product>
     <Company>rhubarb-geek-nz</Company>
     <PackageId>rhubarb-geek-nz.Console</PackageId>
     <Title>Console for PowerShell</Title>
-    <Description>Tools for reading and writing directly to stdin and stdout using the Console API</Description>
+    <Description>Tools for reading and writing directly to stdin, stdout and stderr using the Console API</Description>
     <Authors>Roger Brown</Authors>
     <PackageProjectUrl>https://github.com/rhubarb-geek-nz/Console</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rhubarb-geek-nz/Console.git</RepositoryUrl>
-    <PackageReleaseNotes>Added error record handling</PackageReleaseNotes>
+    <PackageReleaseNotes>Use current runspace for running record conversions</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Console</PackageTags>
